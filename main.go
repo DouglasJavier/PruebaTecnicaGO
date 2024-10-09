@@ -4,12 +4,17 @@ import (
 	"net/http"
 
 	"github.com/douglascolque/go-gorm-rest-api/db"
+	"github.com/douglascolque/go-gorm-rest-api/models"
 	"github.com/douglascolque/go-gorm-rest-api/routes"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	db.DBConnection()
+	db.DB.AutoMigrate(models.Category{})
+	db.DB.AutoMigrate(models.User{})
+	db.DB.AutoMigrate(models.Task{})
+	db.DB.AutoMigrate(models.Task_Category{})
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", routes.PingHandler)
 
