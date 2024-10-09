@@ -18,7 +18,20 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", routes.PingHandler)
 
-	http.ListenAndServe(":3000", enableCORS(router))
+	//rutas para user
+	router.HandleFunc("/users", routes.GetUsersHandler).Methods("GET")
+	router.HandleFunc("/users/{id}", routes.GetUserHandler).Methods("GET")
+	router.HandleFunc("/users", routes.PostUserHandler).Methods("POST")
+	router.HandleFunc("/users/{id}", routes.DeleteUserHandler).Methods("DELETE")
+
+	//rutas para task
+	//task routes
+	router.HandleFunc("/tasks", routes.GetTasksHandler).Methods("GET")
+	router.HandleFunc("/tasks/{id}", routes.GetTaskHandler).Methods("GET")
+	router.HandleFunc("/tasks", routes.PostTaskHandler).Methods("POST")
+	router.HandleFunc("/tasks/{id}", routes.DeleteTaskHandler).Methods("DELETE")
+
+	http.ListenAndServe(":8082", enableCORS(router))
 }
 func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
